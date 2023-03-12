@@ -2,42 +2,43 @@
 
 package uk.co.alt236.codeplasteragetestapp.arraytests
 
+import uk.co.alt236.codeplasteragetestapp.TestInputLogger
 import java.io.Serializable
 
 class KotlinClass : CommonArrayTests {
     override fun booleanArrayTest(args: Array<Boolean>) {
-        args.isEmpty()
+        TestInputLogger.log(args)
     }
 
     override fun byteArrayTest(args: Array<Byte>) {
-        args.isEmpty()
+        TestInputLogger.log(args)
     }
 
     override fun charArrayTest(args: Array<Char>) {
-        args.isEmpty()
+        TestInputLogger.log(args)
     }
 
     override fun doubleArrayTest(args: Array<Double>) {
-        args.isEmpty()
+        TestInputLogger.log(args)
     }
 
     override fun intArrayTest(args: Array<Int>) {
-        args.isEmpty()
+        TestInputLogger.log(args)
     }
 
     override fun longArrayTest(args: Array<Long>) {
-        args.isEmpty()
+        TestInputLogger.log(args)
     }
 
     override fun shortTest(args: Array<Short>) {
-        args.isEmpty()
+        TestInputLogger.log(args)
     }
 
     override fun stringArrayTest(args: Array<String>) {
-        args.isEmpty()
+        TestInputLogger.log(args)
     }
 
     override fun serializableArray(args: Array<Serializable>) {
-        args.isEmpty()
+        TestInputLogger.log(args)
     }
 }

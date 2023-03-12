@@ -2,40 +2,42 @@
 
 package uk.co.alt236.codeplasteragetestapp.primitivetests
 
+import uk.co.alt236.codeplasteragetestapp.TestInputLogger
+
 class KotlinClass : CommonPrimitiveTests {
     override fun stringTest(arg: String) {
-        // NOOP
+        TestInputLogger.log(arg)
     }
 
     override fun booleanTest(arg: Boolean) {
-        // NOOP
+        TestInputLogger.log(arg)
     }
 
     override fun intTest(arg: Int) {
-        // NOOP
+        TestInputLogger.log(arg)
     }
 
     override fun longTest(arg: Long) {
-        // NOOP
+        TestInputLogger.log(arg)
     }
 
     override fun shortTest(arg: Short) {
-        // NOOP
+        TestInputLogger.log(arg)
     }
 
     override fun byteTest(arg: Byte) {
-        // NOOP
+        TestInputLogger.log(arg)
     }
 
     override fun charTest(arg: Char) {
-        // NOOP
+        TestInputLogger.log(arg)
     }
 
     override fun doubleTest(arg: Double) {
-        // NOOP
+        TestInputLogger.log(arg)
     }
 
     override fun floatTest(arg: Float) {
-        // NOOP
+        TestInputLogger.log(arg)
     }
 }

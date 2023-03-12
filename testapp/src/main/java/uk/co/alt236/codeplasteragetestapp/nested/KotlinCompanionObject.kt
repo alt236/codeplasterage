@@ -2,6 +2,7 @@
 
 package uk.co.alt236.codeplasteragetestapp.nested
 
+import uk.co.alt236.codeplasteragetestapp.TestInputLogger
 import uk.co.alt236.codeplasteragetestapp.arraytests.CommonArrayTests
 import java.io.Serializable
 
@@ -9,114 +10,114 @@ class KotlinCompanionObject {
 
     object Foo : CommonArrayTests {
         override fun stringArrayTest(args: Array<String>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun serializableArray(args: Array<Serializable>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun intArrayTest(args: Array<Int>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun longArrayTest(args: Array<Long>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun shortTest(args: Array<Short>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun booleanArrayTest(args: Array<Boolean>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun byteArrayTest(args: Array<Byte>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun charArrayTest(args: Array<Char>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun doubleArrayTest(args: Array<Double>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
     }
 
     companion object : CommonArrayTests {
         override fun stringArrayTest(args: Array<String>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun serializableArray(args: Array<Serializable>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun intArrayTest(args: Array<Int>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun longArrayTest(args: Array<Long>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun shortTest(args: Array<Short>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun booleanArrayTest(args: Array<Boolean>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun byteArrayTest(args: Array<Byte>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun charArrayTest(args: Array<Char>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         override fun doubleArrayTest(args: Array<Double>) {
-            args.isEmpty()
+            TestInputLogger.log(args)
         }
 
         object CompanionInner : CommonArrayTests {
             override fun stringArrayTest(args: Array<String>) {
-                args.isEmpty()
+                TestInputLogger.log(args)
             }
 
             override fun serializableArray(args: Array<Serializable>) {
-                args.isEmpty()
+                TestInputLogger.log(args)
             }
 
             override fun intArrayTest(args: Array<Int>) {
-                args.isEmpty()
+                TestInputLogger.log(args)
             }
 
             override fun longArrayTest(args: Array<Long>) {
-                args.isEmpty()
+                TestInputLogger.log(args)
             }
 
             override fun shortTest(args: Array<Short>) {
-                args.isEmpty()
+                TestInputLogger.log(args)
             }
 
             override fun booleanArrayTest(args: Array<Boolean>) {
-                args.isEmpty()
+                TestInputLogger.log(args)
             }
 
             override fun byteArrayTest(args: Array<Byte>) {
-                args.isEmpty()
+                TestInputLogger.log(args)
             }
 
             override fun charArrayTest(args: Array<Char>) {
-                args.isEmpty()
+                TestInputLogger.log(args)
             }
 
             override fun doubleArrayTest(args: Array<Double>) {
-                args.isEmpty()
+                TestInputLogger.log(args)
             }
         }
     }

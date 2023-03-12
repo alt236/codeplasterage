@@ -1,6 +1,7 @@
 package uk.co.alt236.codeplasteragetestapp.statictests;
 
 import org.jetbrains.annotations.NotNull;
+import uk.co.alt236.codeplasteragetestapp.TestInputLogger;
 
 public class JavaStaticPrivateConstr {
 
@@ -9,22 +10,22 @@ public class JavaStaticPrivateConstr {
     }
 
     public static void stringArrayTest(@NotNull String[] args) {
-        System.out.println("FOO!");
+        TestInputLogger.log(args);
     }
 
     public static void intArrayTest(@NotNull Integer[] args) {
-        System.out.println("FOO!");
+        TestInputLogger.log(args);
     }
 
     public static void longArrayTest(@NotNull Long[] args) {
-        System.out.println("FOO!");
+        TestInputLogger.log(args);
     }
 
     public static void byteArrayTest(@NotNull Byte[] args) {
-        System.out.println("FOO!");
+        TestInputLogger.log(args);
     }
 
     public static void doubleArrayTest(@NotNull Double[] args) {
-        System.out.println("FOO!");
+        TestInputLogger.log(args);
     }
 }
