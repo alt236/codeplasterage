@@ -4,6 +4,8 @@ plugins {
     id 'maven-publish'
 }
 
+def project_name = "Code Plasterage"
+def github_owner_and_repo = "alt236/codeplasterage"
 def group_id = 'uk.co.alt236'
 def artifact_id = 'codeplasterage'
 def artifact_version = '1.0-SNAPSHOT'
@@ -18,16 +20,16 @@ repositories {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId = group_id
             artifactId = artifact_id
+            groupId = group_id
             version = artifact_version
 
             from components.java
 
             pom {
-                name = 'Code Plasterage'
-                description = 'A library to artificially inflate code coverage stats'
-                url = 'https://github.com/alt236/codeplasterage'
+                name = project_name
+                description = 'A library to artificially inflate code coverage stats via reflection'
+                url = "https://github.com/$github_owner_and_repo"
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
@@ -38,12 +40,25 @@ publishing {
                     developer {
                         id = 'alt236'
                         name = 'Alexandros Schillings'
-                        email = 'john.doe@example.com'
                     }
                 }
                 scm {
-                    url = 'https://github.com/alt236/codeplasterage'
+                    url = "https://github.com/$github_owner_and_repo"
                 }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = project_name.replace(" ", "")
+            url = uri("https://maven.pkg.github.com/$github_owner_and_repo")
+            credentials {
+                username = project.findProperty("gpr.user")
+                        ?: project.findProperty("GITHUB_ALT236_PUBLISH_USERNAME")
+                        ?: System.getenv("GITHUB_ALT236_PUBLISH_USERNAME")
+                password = project.findProperty("gpr.key")
+                        ?: project.findProperty("GITHUB_ALT236_PUBLISH_KEY")
+                        ?: System.getenv("GITHUB_ALT236_PUBLISH_KEY")
             }
         }
     }
