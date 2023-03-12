@@ -13,17 +13,21 @@ class SystemClassFilter : ClassFinderFilter {
 
     override fun isIncluded(clazz: Class<*>): Boolean {
         return when {
-            clazz.`package`.name == Consts.ROOT_PACKAGE -> false // We don't want any weird test loops
-            clazz.`package`.name.startsWith(Consts.ROOT_PACKAGE + ".") -> false // We don't want any weird test loops
+            Modifier.isPrivate(clazz.modifiers) -> false
             clazz.isAnnotation -> false
             clazz.isInterface -> false
             Modifier.isAbstract(clazz.modifiers) -> false
+
+            clazz.`package`.name == Consts.ROOT_PACKAGE -> false // We don't want any weird test loops
+            clazz.`package`.name.startsWith(Consts.ROOT_PACKAGE + ".") -> false // We don't want any weird test loops
+
             clazz.name.startsWith("_") -> false
             clazz.name.startsWith("Hilt_") -> false
             clazz.name.endsWith("_GeneratedInjector") -> false
             clazz.name.endsWith("_MembersInjector") -> false
             clazz.name.endsWith("_Factory") -> false
             clazz.name.endsWith("_HiltModules") -> false
+
             !clazz.canLoadMethods() -> false
             clazz.isAnnotatedWithAnyOf(FORBIDDEN_CLASS_ANNOTATIONS) -> false
             clazz.methodsAreAnnotatedWithAnyOf(FORBIDDEN_METHOD_ANNOTATIONS) -> false // skip any tests

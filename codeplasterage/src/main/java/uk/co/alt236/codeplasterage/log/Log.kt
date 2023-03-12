@@ -2,6 +2,7 @@ package uk.co.alt236.codeplasterage.log
 
 import com.google.common.reflect.ClassPath.ClassInfo
 import java.lang.reflect.Executable
+import kotlin.reflect.KClass
 
 @Suppress("unused")
 internal object Log {
@@ -18,6 +19,9 @@ internal object Log {
         logError(throwable, executable.toString(), context)
     }
 
+    fun logE(throwable: Throwable, clazz: KClass<*>, context: String? = null) {
+        logError(throwable, clazz.toString(), context)
+    }
     fun logE(throwable: Throwable, clazz: Class<*>, context: String? = null) {
         logError(throwable, clazz.toString(), context)
     }
