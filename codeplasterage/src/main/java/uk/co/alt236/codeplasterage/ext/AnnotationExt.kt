@@ -21,4 +21,13 @@ object AnnotationExt {
         }
         return false
     }
+
+    fun Class<*>.isAssignableToAnyOf(candidates: Set<Class<*>>): Boolean {
+        for (candidate in candidates) {
+            if (candidate.isAssignableFrom(this)) {
+                return true
+            }
+        }
+        return false
+    }
 }

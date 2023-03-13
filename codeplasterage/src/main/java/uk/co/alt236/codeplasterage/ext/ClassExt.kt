@@ -3,7 +3,7 @@ package uk.co.alt236.codeplasterage.ext
 import uk.co.alt236.codeplasterage.log.Log
 
 object ClassExt {
-    fun Class<*>.getKotlinObject(): Any? = this.kotlin.objectInstance
+
 
     fun Class<*>.canLoadMethods(): Boolean {
         try {

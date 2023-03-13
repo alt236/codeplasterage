@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package uk.co.alt236.codeplasteragetestapp.access
+package uk.co.alt236.codeplasteragetestapp.unrunables
 
 import uk.co.alt236.codeplasteragetestapp.TestInputLogger
 

@@ -35,6 +35,10 @@ class MethodFinder(val debug: Boolean) {
                 continue
             }
 
+            if (method.isSynthetic) {
+                continue
+            }
+
             valid.add(method)
         }
 
