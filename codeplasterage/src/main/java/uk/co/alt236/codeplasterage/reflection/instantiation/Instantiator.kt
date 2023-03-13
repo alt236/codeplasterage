@@ -1,7 +1,6 @@
 package uk.co.alt236.codeplasterage.reflection.instantiation
 
 import uk.co.alt236.codeplasterage.datafactory.DummyDataFactory
-import uk.co.alt236.codeplasterage.ext.ClassExt.getKotlinObject
 import uk.co.alt236.codeplasterage.log.Log
 import java.lang.reflect.Constructor
 
@@ -10,6 +9,7 @@ internal class Instantiator(
     private val debug: Boolean
 ) {
     private val classFilter = InstantiatorClassFilter()
+    private val kotlinObjectGetter = KotlinObjectGetter(debug)
 
     fun <T> instantiate(clazz: Class<T>): InstantiatorResult<T> {
         return when {
@@ -28,10 +28,11 @@ internal class Instantiator(
         val constructors = clazz.constructors
         printDebug("Constructors: ${constructors.size}, in $clazz")
 
-        if (clazz.getKotlinObject() != null) {
+        val kotlinObjectResult = kotlinObjectGetter.getKotlinObject(clazz)
+
+        if (kotlinObjectResult != null && kotlinObjectResult is InstantiatorResult.Success) {
             printDebug("Is Kotlin object! :$clazz")
-            val instance = clazz.getKotlinObject() as T
-            return InstantiatorResult.Success(listOf(instance), clazz)
+            return kotlinObjectResult
         } else {
             if (constructors.isEmpty()) {
                 return InstantiatorResult.Error(IllegalStateException("No constructors found! class=$clazz"), clazz)

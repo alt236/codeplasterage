@@ -22,6 +22,7 @@ internal object Log {
     fun logE(throwable: Throwable, clazz: KClass<*>, context: String? = null) {
         logError(throwable, clazz.toString(), context)
     }
+
     fun logE(throwable: Throwable, clazz: Class<*>, context: String? = null) {
         logError(throwable, clazz.toString(), context)
     }

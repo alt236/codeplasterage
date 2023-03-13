@@ -1,5 +1,7 @@
 package uk.co.alt236.codeplasteragetestapp
+
 private const val CHEVRON = ">>>>"
+
 object TestInputLogger {
 
     @JvmStatic

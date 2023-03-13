@@ -4,6 +4,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import uk.co.alt236.codeplasterage.Consts
 import uk.co.alt236.codeplasterage.ext.AnnotationExt.isAnnotatedWithAnyOf
+import uk.co.alt236.codeplasterage.ext.AnnotationExt.isAssignableToAnyOf
 import uk.co.alt236.codeplasterage.ext.AnnotationExt.methodsAreAnnotatedWithAnyOf
 import uk.co.alt236.codeplasterage.ext.ClassExt.canLoadMethods
 import uk.co.alt236.codeplasterage.reflection.classfinder.ClassFinderFilter
@@ -14,9 +15,12 @@ class SystemClassFilter : ClassFinderFilter {
     override fun isIncluded(clazz: Class<*>): Boolean {
         return when {
             Modifier.isPrivate(clazz.modifiers) -> false
-            clazz.isAnnotation -> false
-            clazz.isInterface -> false
             Modifier.isAbstract(clazz.modifiers) -> false
+            clazz.isInterface -> false
+            clazz.isAnnotation -> false
+            clazz.isSynthetic -> false
+
+            clazz.name.contains("\$\$") -> false // Still synthetics - this should cover the `KotlinInternalSynthetic.syntheticComparator` test case
 
             clazz.`package`.name == Consts.ROOT_PACKAGE -> false // We don't want any weird test loops
             clazz.`package`.name.startsWith(Consts.ROOT_PACKAGE + ".") -> false // We don't want any weird test loops
@@ -29,6 +33,7 @@ class SystemClassFilter : ClassFinderFilter {
             clazz.name.endsWith("_HiltModules") -> false
 
             !clazz.canLoadMethods() -> false
+            clazz.isAssignableToAnyOf(FORBIDDEN_SUPERCLASSES_AND_INTERFACES) -> false
             clazz.isAnnotatedWithAnyOf(FORBIDDEN_CLASS_ANNOTATIONS) -> false
             clazz.methodsAreAnnotatedWithAnyOf(FORBIDDEN_METHOD_ANNOTATIONS) -> false // skip any tests
             else -> return true
@@ -36,6 +41,10 @@ class SystemClassFilter : ClassFinderFilter {
     }
 
     private companion object {
+        private val FORBIDDEN_SUPERCLASSES_AND_INTERFACES = setOf<Class<*>>(
+            kotlin.jvm.internal.Lambda::class.java
+        )
+
         private val FORBIDDEN_CLASS_ANNOTATIONS = setOf<Class<out Annotation>>(
             RunWith::class.java
         )
