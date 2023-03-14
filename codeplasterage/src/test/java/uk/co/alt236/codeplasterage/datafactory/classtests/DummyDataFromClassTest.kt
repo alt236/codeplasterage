@@ -106,6 +106,8 @@ class DummyDataFromClassTest {
                 Simple(NumberFormatException::class.java),
                 Simple(UnsupportedOperationException::class.java),
 
+                Simple(IllegalCallerException::class.java),
+
                 Simple(RuntimeException::class.java),
                 Simple(Exception::class.java),
                 Simple(Throwable::class.java),
