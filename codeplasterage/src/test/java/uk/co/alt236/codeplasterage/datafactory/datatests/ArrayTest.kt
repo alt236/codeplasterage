@@ -1,4 +1,4 @@
-package uk.co.alt236.codeplasterage.datafactory
+package uk.co.alt236.codeplasterage.datafactory.datatests
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import uk.co.alt236.codeplasterage.datafactory.DataFactoryResult
+import uk.co.alt236.codeplasterage.datafactory.DummyDataFactory
+import uk.co.alt236.codeplasterage.datafactory.stats.DataFactoryRequestRecorder
 import java.util.*
 import java.util.stream.Stream
 
@@ -14,7 +17,7 @@ internal class ArrayTest {
 
     @BeforeEach
     fun setUp() {
-        sut = DummyDataFactory(true)
+        sut = DummyDataFactory(true, DataFactoryRequestRecorder())
     }
 
     @ParameterizedTest(name = "{index}  =>  type=''{1}'' / value=''{0}''")

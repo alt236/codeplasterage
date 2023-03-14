@@ -8,6 +8,7 @@ abstract class SubDataFactory(private val debug: Boolean) {
     abstract fun canCreateDataFor(clazz: Class<*>): Boolean
     abstract fun getDummyData(clazz: Class<*>): DataFactoryResult<*>
 
+    @Suppress("MemberVisibilityCanBePrivate")
     protected fun logDebug(message: Any) {
         if (debug) {
             Log.log(this::class.java.simpleName, message)
@@ -17,9 +18,10 @@ abstract class SubDataFactory(private val debug: Boolean) {
     protected fun <T> tryToInstantiate(clazz: Class<T>): T? {
         logDebug("About to try and force instantiate a '$clazz'")
         val isPossible = when {
-            clazz.isInterface -> false
-            Modifier.isAbstract(clazz.modifiers) -> false
             Modifier.isPrivate(clazz.modifiers) -> false
+            Modifier.isAbstract(clazz.modifiers) -> false
+            clazz.isInterface -> false
+            clazz.isSynthetic -> false
             clazz.constructors.isEmpty() -> false
             else -> true
         }

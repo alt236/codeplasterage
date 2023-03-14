@@ -32,8 +32,12 @@ internal object Log {
     }
 
     fun logE(message: String, throwable: Throwable) {
-        System.err.println(message)
+        logE(message)
         throwable.printStackTrace()
+    }
+
+    fun logE(message: String) {
+        System.err.println(message)
     }
 
     private fun logError(throwable: Throwable, onWhat: String, context: String?) {
@@ -57,6 +61,6 @@ internal object Log {
             }
         }
 
-        System.err.println(message)
+        logE(message)
     }
 }
