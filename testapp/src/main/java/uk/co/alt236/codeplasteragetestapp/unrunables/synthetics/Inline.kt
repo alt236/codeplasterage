@@ -19,5 +19,4 @@ class Inline {
                 (arg(0) as Callback<T>).onResponse(call, mockk())
             }
         }
-
 }

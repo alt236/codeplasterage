@@ -8,7 +8,8 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import uk.co.alt236.codeplasterage.datafactory.DataFactoryResult
 import uk.co.alt236.codeplasterage.datafactory.DummyDataFactory
-import uk.co.alt236.codeplasterage.datafactory.classtests.DummyDataFromClassTest.Companion.InputArgs.*
+import uk.co.alt236.codeplasterage.datafactory.classtests.DummyDataFromClassTest.Companion.InputArgs.Complex
+import uk.co.alt236.codeplasterage.datafactory.classtests.DummyDataFromClassTest.Companion.InputArgs.Simple
 import uk.co.alt236.codeplasterage.datafactory.stats.DataFactoryRequestRecorder
 import java.io.Closeable
 import java.io.IOException
@@ -50,7 +51,7 @@ class DummyDataFromClassTest {
             @Suppress("RemoveRedundantQualifierName")
             val args: List<InputArgs> = listOf(
                 Simple(java.lang.String::class.java),
-                Simple(kotlin.String::class.java),
+                Simple(String::class.java),
 
                 Simple(java.lang.CharSequence::class.java),
                 Simple(kotlin.CharSequence::class.java),
@@ -108,7 +109,7 @@ class DummyDataFromClassTest {
                 Simple(RuntimeException::class.java),
                 Simple(Exception::class.java),
                 Simple(Throwable::class.java),
-                Simple(Error::class.java),
+                Simple(Error::class.java)
             )
 
             return args.map { it.toTestArgs() }.stream()

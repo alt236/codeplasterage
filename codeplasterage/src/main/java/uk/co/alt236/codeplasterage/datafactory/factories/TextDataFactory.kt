@@ -32,7 +32,7 @@ class TextDataFactory(debug: Boolean) : SubDataFactory(debug) {
         const val DUMMY_STRING = "FOO_DUMMY_TEXT"
 
         val EXPECTED_INTERFACES = setOf(
-            CharSequence::class.java,
+            CharSequence::class.java
         )
     }
 }

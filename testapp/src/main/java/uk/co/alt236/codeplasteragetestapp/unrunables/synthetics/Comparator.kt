@@ -16,8 +16,7 @@ class Comparator {
         val list: List<DummyObject> = listOf(
             DummyObject("Bob"),
             DummyObject("Alice"),
-            DummyObject("Eve"),
+            DummyObject("Eve")
         ).sortedBy { it.name }
     }
-
 }

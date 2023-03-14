@@ -53,7 +53,7 @@ class CollectionDataFactory(debug: Boolean) : SubDataFactory(debug) {
         val EXPECTED_INTERFACES = setOf(
             Collection::class.java,
             Iterable::class.java,
-            Map::class.java,
+            Map::class.java
         )
     }
 }

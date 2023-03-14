@@ -42,5 +42,4 @@ internal class DataFactoryStatsPrinter {
             else -> "class"
         }
     }
-
 }

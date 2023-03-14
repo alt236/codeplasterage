@@ -48,7 +48,7 @@ internal class PrimitiveTest {
                 BigInteger("2"),
                 Object::class.java,
                 Object(),
-                Locale.CANADA,
+                Locale.CANADA
             )
 
             return args.map { it.toTestArgs() }.stream()

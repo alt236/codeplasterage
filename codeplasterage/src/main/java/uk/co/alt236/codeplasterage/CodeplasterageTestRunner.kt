@@ -154,7 +154,6 @@ class CodeplasterageTestRunner(private val testClass: Class<Any>) : Runner() {
         }
     }
 
-
     private companion object {
         private fun Any.collectTestMethods() = this.javaClass.methods.filter { it.isValidTestMethod() }
 
