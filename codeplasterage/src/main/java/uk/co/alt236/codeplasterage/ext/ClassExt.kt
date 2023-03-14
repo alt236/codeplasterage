@@ -15,8 +15,13 @@ object ClassExt {
         return false
     }
 
-    fun Class<*>.implementsAnyOf(interfaces: Set<Class<*>>): Boolean {
-        val set = this.getAllInterfaces()
+    fun Class<*>.implementsOrIsAnyOf(interfaces: Set<Class<*>>): Boolean {
+        val set = this.getAllInterfaces().toMutableSet()
+
+        if (this.isInterface) {
+            set.add(this)
+        }
+
         for (candidate in interfaces) {
             if (set.contains(candidate)) {
                 return true

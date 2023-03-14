@@ -2,10 +2,14 @@ package uk.co.alt236.codeplasterage.datafactory.factories
 
 import uk.co.alt236.codeplasterage.datafactory.DataFactoryResult
 import uk.co.alt236.codeplasterage.datafactory.SubDataFactory
+import java.io.Closeable
 import java.io.InputStream
 import java.io.Serializable
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.net.URL
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
@@ -19,9 +23,6 @@ internal class ObjectDataFactory(boolean: Boolean, private val primitiveFactory:
     @Suppress("RemoveRedundantQualifierName")
     override fun getDummyData(clazz: Class<*>): DataFactoryResult<*> {
         return when (clazz) {
-            java.lang.String::class.java -> DataFactoryResult.Valid(DUMMY_STRING, clazz)
-            java.lang.CharSequence::class.java -> DataFactoryResult.Valid(DUMMY_STRING, clazz)
-
             //
             // Numbers
             //
@@ -52,6 +53,11 @@ internal class ObjectDataFactory(boolean: Boolean, private val primitiveFactory:
             BigDecimal::class.java -> DataFactoryResult.Valid(DUMMY_BIGDECIMAL, clazz)
             BigInteger::class.java -> DataFactoryResult.Valid(DUMMY_BIGINTEGER, clazz)
 
+            UUID::class.java -> DataFactoryResult.Valid(DUMMY_UUID, clazz)
+            java.util.UUID::class.java -> DataFactoryResult.Valid(DUMMY_UUID, clazz)
+
+            URL::class.java -> DataFactoryResult.Valid(DUMMY_URL, clazz)
+
             //
             // Locale/Date/Time
             //
@@ -59,14 +65,25 @@ internal class ObjectDataFactory(boolean: Boolean, private val primitiveFactory:
             Locale::class.java -> DataFactoryResult.Valid(DUMMY_LOCALE, clazz)
             Calendar::class.java -> DataFactoryResult.Valid(Calendar.getInstance(DUMMY_TIME_ZONE), clazz)
             TimeZone::class.java -> DataFactoryResult.Valid(DUMMY_TIME_ZONE, clazz)
-            java.time.Duration::class.java -> DataFactoryResult.Valid(Duration.ZERO, clazz)
-            java.util.concurrent.TimeUnit::class.java -> DataFactoryResult.Valid(TimeUnit.MILLISECONDS, clazz)
+            DateFormat::class.java -> DataFactoryResult.Valid(DateFormat.getInstance(), clazz)
+            SimpleDateFormat::class.java -> DataFactoryResult.Valid(SimpleDateFormat.getInstance(), clazz)
 
-            java.util.Iterator::class.java -> DataFactoryResult.Valid(emptyList<Any>().iterator(), clazz)
+            Duration::class.java -> DataFactoryResult.Valid(Duration.ZERO, clazz)
+            java.time.Duration::class.java -> DataFactoryResult.Valid(java.time.Duration.ZERO, clazz)
+
+            java.util.concurrent.TimeUnit::class.java -> DataFactoryResult.Valid(TimeUnit.MILLISECONDS, clazz)
+            java.util.Currency::class.java -> DataFactoryResult.Valid(DUMMY_CURRENCY, clazz)
+
+            Iterator::class.java -> DataFactoryResult.Valid(emptyList<Any>().iterator(), clazz)
+            java.util.Iterator::class.java -> DataFactoryResult.Valid(
+                java.util.Collections.emptyList<Any>().iterator(),
+                clazz
+            )
 
             // Streams
             Readable::class.java -> DataFactoryResult.Valid("".reader(), clazz)
             InputStream::class.java -> DataFactoryResult.Valid("".byteInputStream(), clazz)
+            Closeable::class.java -> DataFactoryResult.Valid(DUMMY_CLOSABLE, clazz)
 
             //
             // Esoteric
@@ -76,6 +93,7 @@ internal class ObjectDataFactory(boolean: Boolean, private val primitiveFactory:
             KClass::class.java -> DataFactoryResult.Valid(Object::class, clazz)
 
             java.lang.Object::class.java -> DataFactoryResult.Valid(DUMMY_OBJECT, clazz)
+            Any::class.java -> DataFactoryResult.Valid(DUMMY_OBJECT, clazz)
             Serializable::class.java -> DataFactoryResult.Valid(DUMMY_SERIALIZABLE, clazz)
             else -> {
                 DataFactoryResult.createUnableToCreateInstanceError(this, clazz)
@@ -84,12 +102,15 @@ internal class ObjectDataFactory(boolean: Boolean, private val primitiveFactory:
     }
 
     private companion object {
-        const val DUMMY_STRING = "FOO_DUMMY_TEXT"
         val DUMMY_SERIALIZABLE: Serializable = "FOO_DUMMY_SERIALIZABLE"
         val DUMMY_TIME_ZONE: TimeZone = TimeZone.getTimeZone("UTC")
         val DUMMY_OBJECT = Object()
-        val DUMMY_LOCALE = Locale.US
-        val DUMMY_BIGDECIMAL = BigDecimal("7.7")
-        val DUMMY_BIGINTEGER = BigInteger("7")
+        val DUMMY_LOCALE: Locale = Locale.US
+        val DUMMY_BIGDECIMAL = BigDecimal("777.777")
+        val DUMMY_BIGINTEGER = BigInteger("7777")
+        val DUMMY_UUID: UUID = UUID.fromString("F7777777-7777-7777-7777-777777777777")
+        val DUMMY_CURRENCY: Currency = Currency.getInstance("USD")
+        val DUMMY_URL = URL("http://path.to/nowhere?right=1&yup=2")
+        val DUMMY_CLOSABLE = Closeable { println("Dummy Closable is now closed!") }
     }
 }

@@ -6,19 +6,25 @@ import uk.co.alt236.codeplasterage.datafactory.factories.ArrayFactory
 import uk.co.alt236.codeplasterage.datafactory.factories.CollectionDataFactory
 import uk.co.alt236.codeplasterage.datafactory.factories.ObjectDataFactory
 import uk.co.alt236.codeplasterage.datafactory.factories.PrimitiveDataFactory
+import uk.co.alt236.codeplasterage.datafactory.factories.TextDataFactory
 import uk.co.alt236.codeplasterage.datafactory.factories.ThrowableDataFactory
+import uk.co.alt236.codeplasterage.datafactory.stats.DataFactoryRequestRecorder
 import uk.co.alt236.codeplasterage.log.Log
 import java.lang.reflect.Executable
 
 private const val LOG_TAG = "DummyDataFactory"
 
-internal class DummyDataFactory(private val debug: Boolean) {
+internal class DummyDataFactory(
+    private val debug: Boolean,
+    val requestsRecorder: DataFactoryRequestRecorder
+) {
 
     private val factories by lazy {
         val primitiveFactory = PrimitiveDataFactory(debug)
 
         listOf(
             primitiveFactory,
+            TextDataFactory(debug),
             ArrayFactory(debug),
             CollectionDataFactory(debug),
             ThrowableDataFactory(debug),
@@ -34,7 +40,9 @@ internal class DummyDataFactory(private val debug: Boolean) {
 
             if (data is DataFactoryResult.Valid<*>) {
                 retVal.add(data.value)
+                requestsRecorder.recordSuccess(param)
             } else {
+                requestsRecorder.recordFailure(param)
                 return null
             }
         }
@@ -44,6 +52,7 @@ internal class DummyDataFactory(private val debug: Boolean) {
 
     fun getDummyDataForType(clazz: Class<*>): DataFactoryResult<*> {
         for (factory in factories) {
+            // Go through all the factories to see if we can get something
             if (factory.canCreateDataFor(clazz)) {
                 when (val data = factory.getDummyData(clazz)) {
                     is DataFactoryResult.Error -> {
@@ -51,14 +60,18 @@ internal class DummyDataFactory(private val debug: Boolean) {
                     }
 
                     is DataFactoryResult.Valid -> {
+                        requestsRecorder.recordSuccess(clazz)
                         printDebug("Factory Success!: [${factory::class.java.simpleName}] produced '${data.value} for '$clazz'")
                         return data
                     }
                 }
+            } else {
+                printDebug("${factory::class.java.simpleName} does not handle: $clazz")
             }
         }
 
         printDebug("!!! Don't know how to produce dummy data for: '$clazz' - will return null!")
+        requestsRecorder.recordFailure(clazz)
         return DataFactoryResult.Valid(null, clazz)
     }
 

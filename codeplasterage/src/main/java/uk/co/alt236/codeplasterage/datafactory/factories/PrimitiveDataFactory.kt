@@ -11,18 +11,29 @@ class PrimitiveDataFactory(debug: Boolean) : SubDataFactory(debug) {
     @Nonnull
     override fun getDummyData(@Nonnull clazz: Class<*>): DataFactoryResult<*> {
         return when (clazz) {
-            Boolean::class.java, Boolean::class.javaPrimitiveType -> Valid(false, clazz)
-            Byte::class.java, Byte::class.javaPrimitiveType -> Valid(7.toByte(), clazz)
-            Char::class.java, Char::class.javaPrimitiveType -> Valid('v', clazz)
-            Double::class.java, Double::class.javaPrimitiveType -> Valid(7.0, clazz)
-            Float::class.java, Float::class.javaPrimitiveType -> Valid(7f, clazz)
-            Int::class.java, Int::class.javaPrimitiveType -> Valid(7, clazz)
-            Long::class.java, Long::class.javaPrimitiveType -> Valid(7L, clazz)
-            Short::class.java, Short::class.javaPrimitiveType -> Valid(7.toShort(), clazz)
+            Boolean::class.java, Boolean::class.javaPrimitiveType -> Valid(DUMMY_BOOLEAN, clazz)
+            Byte::class.java, Byte::class.javaPrimitiveType -> Valid(DUMMY_BYTE, clazz)
+            Char::class.java, Char::class.javaPrimitiveType -> Valid(DUMMY_CHAR, clazz)
+            Double::class.java, Double::class.javaPrimitiveType -> Valid(DUMMY_DOUBLE, clazz)
+            Float::class.java, Float::class.javaPrimitiveType -> Valid(DUMMY_FLOAT, clazz)
+            Int::class.java, Int::class.javaPrimitiveType -> Valid(DUMMY_INT, clazz)
+            Long::class.java, Long::class.javaPrimitiveType -> Valid(DUMMY_LONG, clazz)
+            Short::class.java, Short::class.javaPrimitiveType -> Valid(DUMMY_SHORT, clazz)
 
             else -> {
                 DataFactoryResult.createUnableToCreateInstanceError(this, clazz)
             }
         }
+    }
+
+    private companion object {
+        const val DUMMY_BOOLEAN: Boolean = false
+        const val DUMMY_BYTE: Byte = 77
+        const val DUMMY_CHAR: Char = '?'
+        const val DUMMY_DOUBLE: Double = 777.777
+        const val DUMMY_FLOAT: Float = 777.777F
+        const val DUMMY_INT: Int = 777
+        const val DUMMY_LONG: Long = 7777L
+        const val DUMMY_SHORT: Short = 77
     }
 }
