@@ -16,13 +16,14 @@ private const val LOG_TAG = "DummyDataFactory"
 
 internal class DummyDataFactory(
     private val debug: Boolean,
-    val requestsRecorder: DataFactoryRequestRecorder
+    val requestsRecorder: DataFactoryRequestRecorder,
+    val additionalFactories: List<SubDataFactory> = emptyList()
 ) {
 
     private val factories by lazy {
         val primitiveFactory = PrimitiveDataFactory(debug)
 
-        listOf(
+        val finalList = additionalFactories + listOf(
             primitiveFactory,
             TextDataFactory(debug),
             ArrayFactory(debug),
@@ -30,6 +31,8 @@ internal class DummyDataFactory(
             ThrowableDataFactory(debug),
             ObjectDataFactory(debug, primitiveFactory)
         )
+
+        finalList
     }
 
     fun getDummyDataToCall(executable: Executable): List<Any?>? {

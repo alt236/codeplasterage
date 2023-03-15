@@ -8,6 +8,7 @@ import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunNotifier
 import uk.co.alt236.codeplasterage.config.ConfigFactory
 import uk.co.alt236.codeplasterage.config.TesterConfig
+import uk.co.alt236.codeplasterage.datafactory.CustomDataFactoryFactory
 import uk.co.alt236.codeplasterage.datafactory.DummyDataFactory
 import uk.co.alt236.codeplasterage.datafactory.stats.DataFactoryRequestRecorder
 import uk.co.alt236.codeplasterage.datafactory.stats.DataFactoryStatsPrinter
@@ -51,26 +52,26 @@ class CodeplasterageTestRunner(private val testClass: Class<Any>) : Runner() {
             when (testMethod.name) {
                 "testEquals" -> {
                     val config = configFactory.compileConfig(testClass, testMethod)
-                    val dummyDataFactory = DummyDataFactory(config.debug, unsatisfiedRequests)
-                    runTestEquals(dummyDataFactory, config, notifier, testMethod)
+                    val dataFactory = createAssembleDummyDataFactory(config, unsatisfiedRequests)
+                    runTestEquals(dataFactory, config, notifier, testMethod)
                 }
 
                 "testToString" -> {
                     val config = configFactory.compileConfig(testClass, testMethod)
-                    val dummyDataFactory = DummyDataFactory(config.debug, unsatisfiedRequests)
-                    runTestToString(dummyDataFactory, config, notifier, testMethod)
+                    val dataFactory = createAssembleDummyDataFactory(config, unsatisfiedRequests)
+                    runTestToString(dataFactory, config, notifier, testMethod)
                 }
 
                 "testHashCode" -> {
                     val config = configFactory.compileConfig(testClass, testMethod)
-                    val dummyDataFactory = DummyDataFactory(config.debug, unsatisfiedRequests)
-                    runTestHashCode(dummyDataFactory, config, notifier, testMethod)
+                    val dataFactory = createAssembleDummyDataFactory(config, unsatisfiedRequests)
+                    runTestHashCode(dataFactory, config, notifier, testMethod)
                 }
 
                 "testMethodCalling" -> {
                     val config = configFactory.compileConfig(testClass, testMethod)
-                    val dummyDataFactory = DummyDataFactory(config.debug, unsatisfiedRequests)
-                    runTestMethodCalling(dummyDataFactory, config, notifier, testMethod)
+                    val dataFactory = createAssembleDummyDataFactory(config, unsatisfiedRequests)
+                    runTestMethodCalling(dataFactory, config, notifier, testMethod)
                 }
 
                 else -> runTest(notifier, testObject, testMethod)
@@ -80,6 +81,15 @@ class CodeplasterageTestRunner(private val testClass: Class<Any>) : Runner() {
         if (globalConfig.debug) {
             dataFactoryStatsPrinter.print(unsatisfiedRequests)
         }
+    }
+
+    private fun createAssembleDummyDataFactory(
+        config: TesterConfig,
+        requestRecorded: DataFactoryRequestRecorder
+    ): DummyDataFactory {
+        val extraFactoriesFactory = CustomDataFactoryFactory(config.debug)
+        val extraFactories = extraFactoriesFactory.createSubDataFactories(config.customDummyDataFactories)
+        return DummyDataFactory(config.debug, requestRecorded, extraFactories)
     }
 
     private fun runTestToString(
