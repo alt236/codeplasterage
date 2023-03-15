@@ -4,6 +4,8 @@ package uk.co.alt236.codeplasterage.config
 
 import uk.co.alt236.codeplasterage.config.DefaultConfigValues.DEBUG
 import uk.co.alt236.codeplasterage.config.DefaultConfigValues.IGNORE_ERRORS
+import uk.co.alt236.codeplasterage.datafactory.SubDataFactory
+import kotlin.reflect.KClass
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class Config(
@@ -11,6 +13,7 @@ annotation class Config(
     val excludeClassNamePatterns: Array<String> = [],
     val forceIncludeClassNames: Array<String> = [],
     val forceExcludeClassNames: Array<String> = [],
+    val customDummyDataFactories: Array<KClass<SubDataFactory>> = [],
     val ignoreErrors: Boolean = IGNORE_ERRORS,
     val debug: Boolean = DEBUG
 )

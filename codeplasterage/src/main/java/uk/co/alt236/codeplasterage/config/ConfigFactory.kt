@@ -1,6 +1,7 @@
 package uk.co.alt236.codeplasterage.config
 
 import java.lang.reflect.Method
+import kotlin.reflect.KClass
 
 internal class ConfigFactory {
 
@@ -20,30 +21,47 @@ internal class ConfigFactory {
         return TesterConfig(
             ignoreErrors = getIgnoreErrors(methodAnnotation, classAnnotation),
             debug = getDebug(methodAnnotation, classAnnotation),
-            includeClassNamePatterns = getPrioritizedList(
+            includeClassNamePatterns = getPrioritizedSet(
                 methodAnnotation?.includeClassNamePatterns,
                 classAnnotation?.includeClassNamePatterns,
                 DefaultConfigValues.DEFAULT_INCLUDE_CLASS_NAME_PATTERNS
             ),
-            excludeClassNamePatterns = getPrioritizedList(
+            excludeClassNamePatterns = getPrioritizedSet(
                 methodAnnotation?.excludeClassNamePatterns,
                 classAnnotation?.excludeClassNamePatterns,
                 DefaultConfigValues.DEFAULT_EXCLUDE_CLASS_NAME_PATTERNS
             ),
-            forceIncludeClassNames = getPrioritizedList(
+            forceIncludeClassNames = getPrioritizedSet(
                 methodAnnotation?.forceIncludeClassNames,
                 classAnnotation?.forceIncludeClassNames,
                 DefaultConfigValues.DEFAULT_FORCE_INCLUDE_CLASS_NAMES
             ),
-            forceExcludeClassNames = getPrioritizedList(
+            forceExcludeClassNames = getPrioritizedSet(
                 methodAnnotation?.forceExcludeClassNames,
                 classAnnotation?.forceExcludeClassNames,
                 DefaultConfigValues.DEFAULT_FORCE_EXCLUDE_CLASS_NAMES
+            ),
+            customDummyDataFactories = getPrioritizedList(
+                methodAnnotation?.customDummyDataFactories,
+                classAnnotation?.customDummyDataFactories,
+                emptyArray()
             )
         )
     }
 
-    private fun getPrioritizedList(
+    private fun <T : Any> getPrioritizedList(
+        methodArray: Array<KClass<T>>?,
+        classArray: Array<KClass<T>>?,
+        fallback: Array<KClass<T>>
+    ): List<KClass<T>> {
+        return when {
+            methodArray != null -> methodArray
+            classArray != null -> classArray
+            else -> fallback
+        }.toList()
+    }
+
+    private fun getPrioritizedSet(
         methodArray: Array<String>?,
         classArray: Array<String>?,
         fallback: Array<String>
