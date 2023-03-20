@@ -28,7 +28,16 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-        with:
-          arguments: build
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+      - name: Execute Gradle build
+        id: build
+        run: ./gradlew clean build
+      - name: Create Code Coverage
+        id: create-code-coverage
+        if: steps.build.outcome == 'success'
+        uses: ./gradlew koverMergedReport
+      - name: Print Code Coverage
+        if: steps.create-code-coverage.outcome == 'success'
+        id: print-code-coverage
+        uses: ./gradlew printCodeCoverage
