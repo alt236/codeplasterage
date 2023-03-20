@@ -36,8 +36,8 @@ jobs:
       - name: Create Code Coverage
         id: create-code-coverage
         if: steps.build.outcome == 'success'
-        uses: ./gradlew koverMergedReport
+        run: ./gradlew koverMergedReport
       - name: Print Code Coverage
         if: steps.create-code-coverage.outcome == 'success'
         id: print-code-coverage
-        uses: ./gradlew printCodeCoverage
+        run: ./gradlew printCodeCoverage
