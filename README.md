@@ -1,8 +1,7 @@
 # CodePlastarage
 
 Have you ever joined a project with limited code coverage and was asked to increase it as a priority? CodePlaterage will
-help
-you reach your goal faster!
+help you reach your goal faster!
 
 CodePlastarage is a library aiming to increase your code coverage is an automatic and completely senseless way. It will
 reflectively load classes based on filters declared in the test definition and try will pass meaningless
@@ -17,8 +16,20 @@ bugs?_
 #### Disclaimer:
 
 In case it is not obvious: This is a joke (but fully functional) library which was born out of a discussion about how
-code coverage metrics can be abused.
-**DO NOT USE THIS PROJECT AS A WAY TO ENSURE QUALITY OR TO VALIDATE ANY CONTRACTS OR BEHAVIOUR**
+code coverage metrics can be abused and artificially inflated.
+
+* **DO NOT USE THIS PROJECT AS A WAY TO ENSURE QUALITY OR TO VALIDATE ANY CONTRACTS OR BEHAVIOUR**
+* **THIS PROJECT WILL (BY DESIGN) TRY AND EXECUTE AS MUCH CODE AS POSSIBLE IN YOUR CODEBASE WITH NO MEASURE OR
+  REASON, SO ANY POTENTIALLY DESTRUCTIVE ACTIONS WILL ALSO BE EXECUTED.**
+* **BY USING THIS, AND DEPENDING ON HOW YOUR CODE IS STRUCTURED, YOU MAY END UP MAKING UNEXPECTED NETWORK CALLS**
+* **DO NOT USE WITHOUT BACKUPS**
+
+Use at your own risk. I bear absolutely no responsibility for any runaway (or unexpected) `Runtime.getRuntime()
+.exec("rm -rf ./")` or `FileUtils.deleteDirectory(new File("./"));` or `DROP TABLE`s or similar that you get smitten
+with by running this library.
+
+If you still want to use this, and you know where the destructive stuff are, you _can_ exclude any relevant code via
+the `@Config` filters (see below) - I still bear no responsibility though!
 
 ## Usage
 
@@ -40,7 +51,8 @@ To get going you need to:
     * `PlasterageTestHashCode`
     * `PlasterageTestToString`
     * `PlasterageTests` - this is a convenience interface which implements all of the above.
-4. Create the proposed methods and annotate them with `@Test`. They can be empty as they will never really be executed
+4. Create the proposed methods and annotate them with `@Test`. They can be empty, or contain code - they will never be
+   executed.
 5. Annotate the class with `@RunWith(CodeplasterageTestRunner::class)`
 6. Configure the tests by using the `@Config` annotation (see below)
 
@@ -148,8 +160,8 @@ class SuperDuperAllTests : PlasterageTests {
 }
 ```
 
-
 ### Example Custom Dummy Data Factory
+
 ```kotlin
 // The factory needs to have a constructor that takes a boolean and extend SubDataFactory
 // The boolean reflects the `debug` value in the @Config
