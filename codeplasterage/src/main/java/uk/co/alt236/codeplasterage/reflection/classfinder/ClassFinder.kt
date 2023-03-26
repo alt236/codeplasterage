@@ -4,11 +4,11 @@ import com.google.common.reflect.ClassPath
 import uk.co.alt236.codeplasterage.config.TesterConfig
 import uk.co.alt236.codeplasterage.log.Log
 import uk.co.alt236.codeplasterage.reflection.classfinder.filters.ConfigDrivenClassFilter
-import uk.co.alt236.codeplasterage.reflection.classfinder.filters.SystemClassFilter
+import uk.co.alt236.codeplasterage.reflection.classfinder.filters.GlobalClassFilter
 
 class ClassFinder(
     private val debug: Boolean = false,
-    private val systemFilter: ClassFinderFilter = SystemClassFilter()
+    private val systemFilter: ClassFinderFilter = GlobalClassFilter()
 ) {
 
     @Synchronized
@@ -23,11 +23,13 @@ class ClassFinder(
             if (filter.isIncluded(info.name)) {
                 val clazz = info.tryToLoad()
                 if (clazz != null) {
-                    if (systemFilter.isIncluded(clazz)) {
-                        printDebug("Including: $clazz.")
-                        result.add(clazz)
-                    } else {
-                        printDebug("Excluding: $clazz")
+                    when (val filterResult = systemFilter.isIncluded(clazz)) {
+                        is ClassFilterResult.Include -> if (filterResult == ClassFilterResult.Include) {
+                            printDebug("Including: $clazz.")
+                            result.add(clazz)
+                        }
+
+                        is ClassFilterResult.Exclude -> printDebug("Excluding (${filterResult.getReason()}): $clazz")
                     }
                 }
             }

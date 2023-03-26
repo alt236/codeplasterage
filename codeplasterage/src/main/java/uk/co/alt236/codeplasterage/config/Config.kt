@@ -13,7 +13,7 @@ annotation class Config(
     val excludeClassNamePatterns: Array<String> = [],
     val forceIncludeClassNames: Array<String> = [],
     val forceExcludeClassNames: Array<String> = [],
-    val customDummyDataFactories: Array<KClass<SubDataFactory>> = [],
+    val customDummyDataFactories: Array<KClass<out SubDataFactory>> = [],
     val ignoreErrors: Boolean = IGNORE_ERRORS,
     val debug: Boolean = DEBUG
 )

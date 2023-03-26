@@ -50,10 +50,10 @@ internal class ConfigFactory {
     }
 
     private fun <T : Any> getPrioritizedList(
-        methodArray: Array<KClass<T>>?,
-        classArray: Array<KClass<T>>?,
-        fallback: Array<KClass<T>>
-    ): List<KClass<T>> {
+        methodArray: Array<KClass<out T>>?,
+        classArray: Array<KClass<out T>>?,
+        fallback: Array<KClass<out T>>
+    ): List<KClass<out T>> {
         return when {
             methodArray != null -> methodArray
             classArray != null -> classArray

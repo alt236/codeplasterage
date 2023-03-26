@@ -6,12 +6,14 @@ import org.junit.runner.RunWith
 import uk.co.alt236.codeplasterage.CodeplasterageTestRunner
 import uk.co.alt236.codeplasterage.config.Config
 import uk.co.alt236.codeplasterage.tests.PlasterageTests
+import uk.co.alt236.codeplasteragetestapp.libcomponents.TestDummyDataFactory
 
 @RunWith(CodeplasterageTestRunner::class)
 @Config(
     includeClassNamePatterns = [TestConstants.TEST_INCLUDE_CLASSNAME_PATTERN],
     ignoreErrors = TestConstants.IGNORE_ERRORS,
-    debug = TestConstants.DEBUG
+    debug = TestConstants.DEBUG,
+    customDummyDataFactories = [TestDummyDataFactory::class]
 )
 class SuperDuperAllTests : PlasterageTests {
 
