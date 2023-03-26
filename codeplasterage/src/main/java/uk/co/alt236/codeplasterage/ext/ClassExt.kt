@@ -1,5 +1,6 @@
 package uk.co.alt236.codeplasterage.ext
 
+import org.apache.commons.lang3.ClassUtils
 import uk.co.alt236.codeplasterage.log.Log
 
 object ClassExt {
@@ -29,22 +30,16 @@ object ClassExt {
         return false
     }
 
-    fun Class<*>.getAllInterfaces(): Set<Class<*>> {
-        val result = HashSet<Class<*>>()
-        getAllInterfaces(this, result)
-        return result
+    fun Class<*>.isAssignableToAnyOf(candidates: Set<NormalisedClassName>): Boolean {
+        val thisSupers = (this.getAllInterfaces() + this.getAllSuperClasses()).toNormalisedClassNameSet()
+        return thisSupers.containsAnyOf(candidates)
     }
 
-    private fun getAllInterfaces(clazz: Class<*>?, interfacesFound: MutableSet<Class<*>>) {
-        var cls: Class<*>? = clazz
-        while (cls != null) {
-            val interfaces = cls.interfaces
-            for (i in interfaces) {
-                if (interfacesFound.add(i)) {
-                    getAllInterfaces(i, interfacesFound)
-                }
-            }
-            cls = cls.superclass
-        }
+    fun Class<*>.getAllInterfaces(): Set<Class<*>> {
+        return ClassUtils.getAllInterfaces(this).toSet()
+    }
+
+    fun Class<*>.getAllSuperClasses(): Set<Class<*>> {
+        return ClassUtils.getAllSuperclasses(this).toSet()
     }
 }

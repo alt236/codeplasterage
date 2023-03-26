@@ -4,7 +4,7 @@ import java.lang.reflect.AnnotatedElement
 
 object AnnotationExt {
 
-    fun Class<*>.methodsAreAnnotatedWithAnyOf(candidates: Set<Class<out Annotation>>): Boolean {
+    fun Class<*>.methodsAreAnnotatedWithAnyOf(candidates: Set<NormalisedClassName>): Boolean {
         for (method in this.declaredMethods) {
             if (method.isAnnotatedWithAnyOf(candidates)) {
                 return true
@@ -13,21 +13,19 @@ object AnnotationExt {
         return false
     }
 
-    fun AnnotatedElement.isAnnotatedWithAnyOf(candidates: Set<Class<out Annotation>>): Boolean {
-        for (candidate in candidates) {
-            if (this.isAnnotationPresent(candidate)) {
-                return true
+    fun AnnotatedElement.isAnnotatedWithAnyOf(candidates: Set<NormalisedClassName>): Boolean {
+        return when {
+            declaredAnnotations.isEmpty() -> false
+            candidates.isEmpty() -> false
+            else -> {
+                val normalisedAnnotations = this.getNormalisedNameAnnotations()
+                return normalisedAnnotations.containsAnyOf(candidates)
             }
         }
-        return false
     }
 
-    fun Class<*>.isAssignableToAnyOf(candidates: Set<Class<*>>): Boolean {
-        for (candidate in candidates) {
-            if (candidate.isAssignableFrom(this)) {
-                return true
-            }
-        }
-        return false
+    private fun AnnotatedElement.getNormalisedNameAnnotations(): Set<NormalisedClassName> {
+        val annotations = this.declaredAnnotations
+        return annotations.map { it.annotationClass.java }.toNormalisedClassNameSet()
     }
 }

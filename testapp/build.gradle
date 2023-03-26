@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'kotlin'
+    id "org.jetbrains.kotlin.kapt"
 }
 
 group 'uk.co.alt236.escamotage'
@@ -12,10 +13,18 @@ repositories {
 dependencies {
     implementation project(":codeplasterage")
 
+    // Any test libraries that are passed as "implementation" are because they support test cases
+    // Since this library uses reflection, we are using the "main" code bucket to write the classes that
+    // will be reflected upon.
+
     implementation 'io.mockk:mockk:1.13.4'
+
+    implementation 'com.google.dagger:dagger:2.45'
+    kapt 'com.google.dagger:dagger-compiler:2.45'
+
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    testImplementation "junit:junit:4.12"
+    testImplementation "junit:junit:4.13.2"
 }
