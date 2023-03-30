@@ -8,7 +8,7 @@ def project_name = "Code Plasterage"
 def github_owner_and_repo = "alt236/codeplasterage"
 def group_id = 'uk.co.alt236'
 def artifact_id = 'codeplasterage'
-def artifact_version = '1.0'
+def artifact_version = '1.1-SNAPSHOT'
 
 group group_id
 version artifact_version
