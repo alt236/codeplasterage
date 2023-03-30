@@ -10,7 +10,7 @@ parameters to methods in order to force the execution of codepaths.
 Think about it as a fuzzy testing framework with limited fuzziness capabilities and absolutely no meaningful impact to
 the improvement of code quality and confidence.
 
-It is also an answer to the common interview question: _Can you have a project with 100% code coverage and still have
+It is also _an_ answer to the common interview question: _Can you have a project with 100% code coverage and still have
 bugs?_
 
 #### Disclaimer:
@@ -18,15 +18,24 @@ bugs?_
 In case it is not obvious: This is a joke (but fully functional) library which was born out of a discussion about how
 code coverage metrics can be abused and artificially inflated.
 
-* **DO NOT USE THIS PROJECT AS A WAY TO ENSURE QUALITY OR TO VALIDATE ANY CONTRACTS OR BEHAVIOUR**
-* **THIS PROJECT WILL (BY DESIGN) TRY AND EXECUTE AS MUCH CODE AS POSSIBLE IN YOUR CODEBASE WITH NO MEASURE OR
-  REASON, SO ANY POTENTIALLY DESTRUCTIVE ACTIONS WILL ALSO BE EXECUTED.**
-* **BY USING THIS, AND DEPENDING ON HOW YOUR CODE IS STRUCTURED, YOU MAY END UP MAKING UNEXPECTED NETWORK CALLS**
-* **DO NOT USE WITHOUT BACKUPS**
+THIS LIBRARY WILL TRY AND EXECUTE AS MUCH CODE AS POSSIBLE IN YOUR CODEBASE (AND ANY DEPENDENCIES) WITH NO MEASURE OR
+REASON (UNLESS **YOU** SET UP THE FILTERS CORRECTLY), _SO **POTENTIALLY DESTRUCTIVE OR COST-INCURRING** ACTIONS **WILL**
+ALSO **BE** **EXECUTED**_.
 
-Use at your own risk. I bear absolutely no responsibility for any runaway (or unexpected) `Runtime.getRuntime()
+* Do not use without backups
+* By using this (UNLESS **YOU** SET UP THE FILTERS CORRECTLY), and depending on how your code is structured, you may end
+  up making unexpected network/db calls
+* Do not use this project as a way to ensure quality or to validate any contracts or behaviour
+
+Use at your own risk.
+
+I bear absolutely no responsibility for any runaway (or unexpected) `Runtime.getRuntime()
 .exec("rm -rf ./")` or `FileUtils.deleteDirectory(new File("./"));` or `DROP TABLE`s or similar that you get smitten
-with by running this library.
+with when using this library.
+
+I also bear no responsibility for any financial damages incurred in any way, say because 1000s of images were spun up,
+or all your data were moved out/in of Glacier, or your employer/customer is wondering where his code is now, or 1000s of
+push messages were sent, etc.
 
 If you still want to use this, and you know where the destructive stuff are, you _can_ exclude any relevant code via
 the `@Config` filters (see below) - I still bear no responsibility though!
@@ -36,25 +45,43 @@ the `@Config` filters (see below) - I still bear no responsibility though!
 Note: There are examples in the `test` folder of the included `testapp`. There is also an example at the bottom of this
 README.
 
-Maven Setup:
+### To get going you need to:
 
-```
-TODO: ADD INSTRUCTIONS
-```
-
-To get going you need to:
-
-1. Add the library as a dependency to your project, as per above
+1. Add the library as a dependency to your project (see next section)
 2. Create a test class - you can call it anything you want
 3. Make it implement one (or more) of the following interfaces
     * `PlasterageTestEquals`
     * `PlasterageTestHashCode`
     * `PlasterageTestToString`
     * `PlasterageTests` - this is a convenience interface which implements all of the above.
-4. Create the proposed methods and annotate them with `@Test`. They can be empty, or contain code - they will never be
+4. Create the proposed methods and annotate them with `@Test`. They should be empty - any code in them will never be
    executed.
 5. Annotate the class with `@RunWith(CodeplasterageTestRunner::class)`
-6. Configure the tests by using the `@Config` annotation (see below)
+6. Optionally (but you really _do_ want to), configure the tests by using the `@Config` annotation (see below)
+
+### Adding the dependency:
+
+To add this library as a dependency you need to:
+
+* Add the github package repo in your `build.gradle`:
+
+```groovy
+repositories {    
+   maven {
+      url = "https://maven.pkg.github.com/alt236/codeplasterage"
+   }
+}
+```
+
+* Add the dependency itself:
+
+```groovy
+dependencies {
+   testImplementation 'uk.co.alt236:codeplasterage:{latest-version}'
+}    
+```
+
+You can find the latest version here: https://github.com/alt236/codeplasterage/packages/
 
 ## Configuration
 
