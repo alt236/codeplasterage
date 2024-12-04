@@ -1,74 +1,32 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
-    id 'java'
-    id 'kotlin'
-    id 'maven-publish'
+    id 'java-library'
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.vanniktech.maven.publish)
 }
 
 def project_name = "Code Plasterage"
 def github_owner_and_repo = "alt236/codeplasterage"
-def group_id = 'uk.co.alt236'
+def group_id = 'dev.alt236'
 def artifact_id = 'codeplasterage'
-def artifact_version = '1.1-SNAPSHOT'
+def artifact_version = '2.0.0'
 
 group group_id
 version artifact_version
 
 repositories {
     mavenCentral()
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId = artifact_id
-            groupId = group_id
-            version = artifact_version
-
-            from components.java
-
-            pom {
-                name = project_name
-                description = 'A library to artificially inflate code coverage stats via reflection'
-                url = "https://github.com/$github_owner_and_repo"
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'alt236'
-                        name = 'Alexandros Schillings'
-                    }
-                }
-                scm {
-                    url = "https://github.com/$github_owner_and_repo"
-                }
-            }
-        }
-    }
-    repositories {
-        maven {
-            name = project_name.replace(" ", "")
-            url = uri("https://maven.pkg.github.com/$github_owner_and_repo")
-            credentials {
-                username = project.findProperty("gpr.user")
-                        ?: project.findProperty("GITHUB_ALT236_PUBLISH_USERNAME")
-                        ?: System.getenv("GITHUB_ALT236_PUBLISH_USERNAME")
-                password = project.findProperty("gpr.key")
-                        ?: project.findProperty("GITHUB_ALT236_PUBLISH_KEY")
-                        ?: System.getenv("GITHUB_ALT236_PUBLISH_KEY")
-            }
-        }
-    }
+    gradlePluginPortal()
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
-    implementation "com.google.guava:guava:31.1-jre"
-    implementation "junit:junit:4.13.2"
+    implementation libs.commons.lang3
+    implementation libs.kotlin.reflect
+    implementation libs.guava
+    implementation libs.kotlin.reflect
+    implementation libs.junit4
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
@@ -77,5 +35,53 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+ktlint {
+    disabledRules = ["no-wildcard-imports"]
+}
+
+mavenPublishing { // This is for the 'vanniktech-maven-publish' plugin
+    var automaticRelease = false
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease)
+    signAllPublications()
+
+    coordinates(group_id, artifact_id, artifact_version)
+    pom {
+        name = project_name
+        description = 'A library to artificially inflate code coverage stats via reflection'
+        url = "https://github.com/$github_owner_and_repo"
+        licenses {
+            license {
+                name = 'The Apache License, Version 2.0'
+                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+        developers {
+            developer {
+                id = 'alt236'
+                name = 'Alexandros Schillings'
+                url = "https://github.com/alt236/"
+            }
+        }
+        scm {
+            url = "https://github.com/$github_owner_and_repo"
+        }
+    }
+}
+
+// Fix for dependency order issue: https://github.com/vanniktech/gradle-maven-publish-plugin/issues/814
+afterEvaluate {
+    var sigDependentTasks = [
+            "publishMavenPublicationToMavenCentralRepository",
+    ]
+
+    for (taskName in sigDependentTasks) {
+        tasks.named(taskName) {
+            println("Found: " + it.name)
+            dependsOn("signMavenPublication")
+        }
+    }
 }
 
