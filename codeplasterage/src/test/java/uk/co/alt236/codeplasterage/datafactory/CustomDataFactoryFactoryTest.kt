@@ -77,7 +77,7 @@ internal class CustomDataFactoryFactoryTest {
     @Suppress("ClassName", "unused")
     private class FactoryWithWrongConstructor_MultipleParams(
         boolean: Boolean,
-        private val foo: String
+        private val foo: String,
     ) : SubDataFactory(boolean) {
         override fun canCreateDataFor(clazz: Class<*>): Boolean {
             return true

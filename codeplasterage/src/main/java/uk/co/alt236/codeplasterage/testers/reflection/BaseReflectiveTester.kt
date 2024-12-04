@@ -13,7 +13,7 @@ internal abstract class BaseReflectiveTester(protected val config: TesterConfig)
     fun test(
         classes: Collection<Class<*>>,
         notifier: RunNotifier,
-        method: Method
+        method: Method,
     ) {
         logger.log("####### Starting Tester! #######'")
         testInternal(classes, TestNotifier(config, logger, notifier), method)
@@ -22,7 +22,7 @@ internal abstract class BaseReflectiveTester(protected val config: TesterConfig)
     protected abstract fun testInternal(
         classes: Collection<Class<*>>,
         notifier: TestNotifier,
-        method: Method
+        method: Method,
     )
 
     protected fun getDescriptionText(
@@ -30,7 +30,7 @@ internal abstract class BaseReflectiveTester(protected val config: TesterConfig)
         count: Int,
         method: Method,
         currentClass: Class<*>,
-        additionalData: Any? = null
+        additionalData: Any? = null,
     ): String {
         val suffix = if (additionalData == null) {
             currentClass.name

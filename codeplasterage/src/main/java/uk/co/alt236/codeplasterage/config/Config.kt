@@ -15,7 +15,7 @@ annotation class Config(
     val forceExcludeClassNames: Array<String> = [],
     val customDummyDataFactories: Array<KClass<out SubDataFactory>> = [],
     val ignoreErrors: Boolean = IGNORE_ERRORS,
-    val debug: Boolean = DEBUG
+    val debug: Boolean = DEBUG,
 )
 
 internal object DefaultConfigValues {

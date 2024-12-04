@@ -10,13 +10,13 @@ import java.lang.reflect.Method
 internal class EqualsTester(
     config: TesterConfig,
     private val testClass: Class<Any>,
-    private val instantiator: Instantiator
+    private val instantiator: Instantiator,
 ) : BaseReflectiveTester(config) {
 
     override fun testInternal(
         classes: Collection<Class<*>>,
         notifier: TestNotifier,
-        method: Method
+        method: Method,
     ) {
         val validClasses = classes.filter { it.constructors.isNotEmpty() }
         logger.log("Will run on ${validClasses.size}/${classes.size} classes")

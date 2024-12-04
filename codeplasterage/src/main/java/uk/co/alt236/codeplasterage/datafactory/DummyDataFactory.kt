@@ -17,7 +17,7 @@ private const val LOG_TAG = "DummyDataFactory"
 internal class DummyDataFactory(
     private val debug: Boolean,
     val requestsRecorder: DataFactoryRequestRecorder,
-    val additionalFactories: List<SubDataFactory> = emptyList()
+    val additionalFactories: List<SubDataFactory> = emptyList(),
 ) {
 
     private val factories by lazy {

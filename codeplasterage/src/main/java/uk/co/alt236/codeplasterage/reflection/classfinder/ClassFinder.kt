@@ -8,7 +8,7 @@ import uk.co.alt236.codeplasterage.reflection.classfinder.filters.GlobalClassFil
 
 class ClassFinder(
     private val debug: Boolean = false,
-    private val systemFilter: ClassFinderFilter = GlobalClassFilter()
+    private val systemFilter: ClassFinderFilter = GlobalClassFilter(),
 ) {
 
     @Synchronized

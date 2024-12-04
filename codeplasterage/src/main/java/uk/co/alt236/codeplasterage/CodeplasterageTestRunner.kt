@@ -85,7 +85,7 @@ class CodeplasterageTestRunner(private val testClass: Class<Any>) : Runner() {
 
     private fun createAssembleDummyDataFactory(
         config: TesterConfig,
-        requestRecorded: DataFactoryRequestRecorder
+        requestRecorded: DataFactoryRequestRecorder,
     ): DummyDataFactory {
         val extraFactoriesFactory = CustomDataFactoryFactory(config.debug)
         val extraFactories = extraFactoriesFactory.createSubDataFactories(config.customDummyDataFactories)
@@ -96,7 +96,7 @@ class CodeplasterageTestRunner(private val testClass: Class<Any>) : Runner() {
         dummyDataFactory: DummyDataFactory,
         config: TesterConfig,
         notifier: RunNotifier,
-        method: Method
+        method: Method,
     ) {
         val instantiator = Instantiator(dummyDataFactory, config.debug)
 
@@ -111,7 +111,7 @@ class CodeplasterageTestRunner(private val testClass: Class<Any>) : Runner() {
         dummyDataFactory: DummyDataFactory,
         config: TesterConfig,
         notifier: RunNotifier,
-        method: Method
+        method: Method,
     ) {
         val instantiator = Instantiator(dummyDataFactory, config.debug)
 
@@ -126,7 +126,7 @@ class CodeplasterageTestRunner(private val testClass: Class<Any>) : Runner() {
         dummyDataFactory: DummyDataFactory,
         config: TesterConfig,
         notifier: RunNotifier,
-        method: Method
+        method: Method,
     ) {
         val instantiator = Instantiator(dummyDataFactory, config.debug)
 
@@ -141,7 +141,7 @@ class CodeplasterageTestRunner(private val testClass: Class<Any>) : Runner() {
         dummyDataFactory: DummyDataFactory,
         config: TesterConfig,
         notifier: RunNotifier,
-        method: Method
+        method: Method,
     ) {
         val instantiator = Instantiator(dummyDataFactory, config.debug)
 

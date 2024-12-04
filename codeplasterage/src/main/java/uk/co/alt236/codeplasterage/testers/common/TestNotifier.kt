@@ -9,7 +9,7 @@ import uk.co.alt236.codeplasterage.log.Log
 internal class TestNotifier(
     private val config: TesterConfig,
     private val logger: TestLogger,
-    private val notifier: RunNotifier
+    private val notifier: RunNotifier,
 ) {
 
     fun fireTestStarted(description: Description) {

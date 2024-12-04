@@ -21,7 +21,7 @@ class CustomDataFactoryFactory(private val debug: Boolean) {
         } catch (e: NoSuchMethodException) {
             val message =
                 "Trying to instantiate custom ${SubDataFactory::class.java.simpleName}. " +
-                    "Please ensure that '${clazz.simpleName}' has a constructor that takes a single boolean (to enable debugging) as a parameter"
+                        "Please ensure that '${clazz.simpleName}' has a constructor that takes a single boolean (to enable debugging) as a parameter"
             Log.logE(throwable = e, clazz = clazz, context = message)
             throw e
         }

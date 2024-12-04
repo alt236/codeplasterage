@@ -10,5 +10,5 @@ data class TesterConfig(
     val forceExcludeClassNames: Set<String>,
     val customDummyDataFactories: List<KClass<out SubDataFactory>>,
     val ignoreErrors: Boolean,
-    val debug: Boolean
+    val debug: Boolean,
 )

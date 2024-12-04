@@ -66,10 +66,10 @@ To add this library as a dependency you need to:
 * Add the github package repo in your `build.gradle`:
 
 ```groovy
-repositories {    
-   maven {
-      url = "https://maven.pkg.github.com/alt236/codeplasterage"
-   }
+repositories {
+    maven {
+        url = "https://maven.pkg.github.com/alt236/codeplasterage"
+    }
 }
 ```
 
@@ -77,7 +77,7 @@ repositories {
 
 ```groovy
 dependencies {
-   testImplementation 'uk.co.alt236:codeplasterage:{latest-version}'
+    testImplementation 'uk.co.alt236:codeplasterage:{latest-version}'
 }    
 ```
 

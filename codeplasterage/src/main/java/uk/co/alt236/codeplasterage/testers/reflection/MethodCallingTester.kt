@@ -16,13 +16,13 @@ internal class MethodCallingTester(
     config: TesterConfig,
     private val testClass: Class<Any>,
     private val dummyDataFactory: DummyDataFactory,
-    private val instantiator: Instantiator
+    private val instantiator: Instantiator,
 ) : BaseReflectiveTester(config) {
 
     override fun testInternal(
         classes: Collection<Class<*>>,
         notifier: TestNotifier,
-        method: Method
+        method: Method,
     ) {
         val methodCaller = MethodCaller(dummyDataFactory, config.debug)
         val methodFinder = MethodFinder(config.debug)
@@ -55,7 +55,7 @@ internal class MethodCallingTester(
     private fun <T> test(
         instantiator: Instantiator,
         methodCaller: MethodCaller,
-        callableMethod: CallableMethod<T>
+        callableMethod: CallableMethod<T>,
     ): Throwable? {
         return when (callableMethod) {
             is CallableMethod.StaticMethod -> testStaticMethod(methodCaller, callableMethod)
@@ -69,7 +69,7 @@ internal class MethodCallingTester(
 
     private fun <T> testStaticMethod(
         methodCaller: MethodCaller,
-        callableMethod: CallableMethod.StaticMethod<T>
+        callableMethod: CallableMethod.StaticMethod<T>,
     ): Throwable? {
         val result = methodCaller.callMethod(callableMethod)
         return if (result is CallResult.Error) {
@@ -82,7 +82,7 @@ internal class MethodCallingTester(
     private fun <T> testInstanceMethod(
         methodCaller: MethodCaller,
         instances: List<T>,
-        callableMethod: CallableMethod.InstanceMethod<T>
+        callableMethod: CallableMethod.InstanceMethod<T>,
     ): Throwable? {
         for (instance in instances) {
             try {

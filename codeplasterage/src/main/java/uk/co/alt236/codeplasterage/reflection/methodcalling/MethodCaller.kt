@@ -6,7 +6,7 @@ import java.lang.reflect.Method
 
 internal class MethodCaller(
     val dummyDataFactory: DummyDataFactory,
-    val debug: Boolean
+    val debug: Boolean,
 ) {
 
     fun <T> callMethod(callable: CallableMethod.StaticMethod<T>) = callMethodUnsafe(null, callable)

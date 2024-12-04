@@ -52,7 +52,7 @@ internal class ConfigFactory {
     private fun <T : Any> getPrioritizedList(
         methodArray: Array<KClass<out T>>?,
         classArray: Array<KClass<out T>>?,
-        fallback: Array<KClass<out T>>
+        fallback: Array<KClass<out T>>,
     ): List<KClass<out T>> {
         return when {
             methodArray != null -> methodArray
@@ -64,7 +64,7 @@ internal class ConfigFactory {
     private fun getPrioritizedSet(
         methodArray: Array<String>?,
         classArray: Array<String>?,
-        fallback: Array<String>
+        fallback: Array<String>,
     ): Set<String> {
         return when {
             methodArray != null -> methodArray
@@ -75,7 +75,7 @@ internal class ConfigFactory {
 
     private fun getIgnoreErrors(
         methodAnnotation: Config?,
-        classAnnotation: Config?
+        classAnnotation: Config?,
     ): Boolean {
         return when {
             methodAnnotation != null -> methodAnnotation.ignoreErrors
@@ -86,7 +86,7 @@ internal class ConfigFactory {
 
     private fun getDebug(
         methodAnnotation: Config?,
-        classAnnotation: Config?
+        classAnnotation: Config?,
     ): Boolean {
         return when {
             methodAnnotation != null -> methodAnnotation.debug

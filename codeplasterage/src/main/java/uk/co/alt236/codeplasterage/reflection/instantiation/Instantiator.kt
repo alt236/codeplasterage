@@ -6,7 +6,7 @@ import java.lang.reflect.Constructor
 
 internal class Instantiator(
     private val dataFactory: DummyDataFactory,
-    private val debug: Boolean
+    private val debug: Boolean,
 ) {
     private val classFilter = InstantiatorClassFilter()
     private val kotlinObjectGetter = KotlinObjectGetter(debug)
