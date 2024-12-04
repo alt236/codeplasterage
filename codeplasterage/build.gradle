@@ -37,6 +37,10 @@ test {
     useJUnitPlatform()
 }
 
+ktlint {
+    disabledRules = ["no-wildcard-imports"]
+}
+
 mavenPublishing { // This is for the 'vanniktech-maven-publish' plugin
     var automaticRelease = false
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease)

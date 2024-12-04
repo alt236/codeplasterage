@@ -61,27 +61,13 @@ README.
 
 ### Adding the dependency:
 
-To add this library as a dependency you need to:
-
-* Add the github package repo in your `build.gradle`:
-
-```groovy
-repositories {
-    maven {
-        url = "https://maven.pkg.github.com/alt236/codeplasterage"
-    }
-}
-```
-
-* Add the dependency itself:
+This library is hosted on Maven Central so just add it:
 
 ```groovy
 dependencies {
-    testImplementation 'uk.co.alt236:codeplasterage:{latest-version}'
+    testImplementation 'dev.alt236:codeplasterage:{latest-version}'
 }    
 ```
-
-You can find the latest version here: https://github.com/alt236/codeplasterage/packages/
 
 ## Configuration
 
@@ -107,12 +93,12 @@ There are two parts in the config, the inclusion/exclusion filters and general c
 
 There are four different filters you can use to target (and exclude classes). They can be all be used at the same time.
 
-| Field Name                 | Priority   | Input                                | Example                                    |
-|----------------------------|------------|--------------------------------------|--------------------------------------------|
-| `forceIncludeClassNames`   | 1, Highest | Array of fully qualified class names | `uk.co.alt236.codeplasteragetestapp.FOO$1` |
-| `forceExcludeClassNames`   | 2          | Array of fully qualified class names | `uk.co.alt236.codeplasteragetestapp.FOO$1` |
-| `excludeClassNamePatterns` | 3          | Array of RegEx Pattern               | `.*codeplasteragetestapp.*`                |
-| `includeClassNamePatterns` | 4, Lowest  | Array of RegEx Pattern               | `.*codeplasteragetestapp.*`                |
+| Field Name                 | Priority   | Input                                | Example                                 |
+|----------------------------|------------|--------------------------------------|-----------------------------------------|
+| `forceIncludeClassNames`   | 1, Highest | Array of fully qualified class names | `dev.alt236codeplasteragetestapp.FOO$1` |
+| `forceExcludeClassNames`   | 2          | Array of fully qualified class names | `dev.alt236codeplasteragetestapp.FOO$1` |
+| `excludeClassNamePatterns` | 3          | Array of RegEx Pattern               | `.*codeplasteragetestapp.*`             |
+| `includeClassNamePatterns` | 4, Lowest  | Array of RegEx Pattern               | `.*codeplasteragetestapp.*`             |
 
 Note 1: It is always better to add the patterns for your own code in `includeClassNamePatterns` instead of just running
 everything. Otherwise, any 3rd party libraries included in your project will be instantiated and many of them do no not

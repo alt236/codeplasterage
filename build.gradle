@@ -2,7 +2,7 @@ plugins {
     id 'java'
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.kapt) apply false
-    alias(libs.plugins.ktlint)
+    alias(libs.plugins.gradle.ktlint)
     alias(libs.plugins.testlogger)
     alias(libs.plugins.kover)
 }
@@ -10,8 +10,8 @@ plugins {
 apply from: "$rootDir/buildsystem/kover.gradle"
 apply from: "$rootDir/buildsystem/printcoverage.gradle"
 
-group = "uk.co.alt236.codeplasterage"
-version = "1.0-SNAPSHOT"
+group = "dev.alt236"
+version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -29,4 +29,7 @@ subprojects {
         showStandardStreams true
     }
 
+    ktlint {
+        version.set("1.4.1")
+    }
 }
